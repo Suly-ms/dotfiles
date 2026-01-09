@@ -34,7 +34,7 @@ echo -e "${GREEN}[+] Résolution des conflits et Backup...${NC}"
 mkdir -p $HOME/.config-backup
 
 # On demande à Git quels fichiers posent problème
-conflicting_files=$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})
+conflicting_files=$(config checkout 2>&1 | egrep "^\s+" | awk {'print $1'})
 
 for file in $conflicting_files; do
     echo "Backup de : $file"
