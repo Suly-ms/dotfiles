@@ -111,6 +111,7 @@
     <property name="plugin-6" type="string" value="systray">
       <property name="square-icons" type="bool" value="true"/>
       <property name="known-legacy-items" type="array">
+        <value type="string" value="connexion au réseau wi-fi « freebox-2418b1 » active : freebox-2418b1 (57 %)"/>
         <value type="string" value="connexion au réseau wi-fi « freebox-2418b1 » active : freebox-2418b1 (52 %)"/>
         <value type="string" value="connexion au réseau wi-fi « freebox-2418b1 » active : freebox-2418b1 (54 %)"/>
         <value type="string" value="connexion au réseau wi-fi « freebox-38c7e3 » active : freebox-38c7e3 (72 %)"/>
