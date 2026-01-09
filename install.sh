@@ -29,10 +29,31 @@ function config {
    /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME "$@"
 }
 
-# 4. Gestion des conflits (Sauvegarde des fichiers par défaut existants)
-echo -e "${GREEN}[+] Backup des fichiers conflictuels (.zshrc, etc)...${NC}"
+# 4. Gestion des conflits (Correction du bug "Aucun fichier ou dossier de ce nom")
+echo -e "${GREEN}[+] Résolution des conflits et Backup...${NC}"
 mkdir -p $HOME/.config-backup
-config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
+
+# On demande à Git quels fichiers posent problème
+conflicting_files=$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})
+
+for file in $conflicting_files; do
+    echo "Backup de : $file"
+    # 1. On crée le dossier parent dans le backup
+    mkdir -p "$HOME/.config-backup/$(dirname "$file")"
+    # 2. On déplace le fichier
+    mv "$HOME/$file" "$HOME/.config-backup/$file"
+done
+
+# 4b. Deuxième tentative d'application de la config
+echo -e "${GREEN}[+] Application de la configuration...${NC}"
+config checkout
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}[OK] Config appliquée.${NC}"
+else
+    echo -e "${RED}[ERREUR] Impossible d'appliquer la config.${NC}"
+    exit 1
+fi
+config config --local status.showUntrackedFiles no
 
 # 5. Application de VOTRE config
 config checkout
