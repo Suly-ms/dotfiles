@@ -22,7 +22,6 @@ nano
 
 git
 gh
-gitkraken
 composer
 php
 php-curl
@@ -49,4 +48,3 @@ usbutils
 
 wine
 wine64
-gzdoom
