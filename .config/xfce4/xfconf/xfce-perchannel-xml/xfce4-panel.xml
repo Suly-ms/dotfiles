@@ -72,7 +72,7 @@
       <property name="background-style" type="uint" value="1"/>
       <property name="enter-opacity" type="uint" value="100"/>
       <property name="leave-opacity" type="uint" value="100"/>
-      <property name="output-name" type="string" value="Automatic"/>
+      <property name="output-name" type="string" value="Primary"/>
       <property name="length-adjust" type="bool" value="true"/>
       <property name="background-rgba" type="array">
         <value type="double" value="0.75"/>
