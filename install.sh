@@ -64,10 +64,37 @@ else
     echo "Pas de fichier mes_logiciels.txt trouvé."
 fi
 
-# 6. Finalisation Zsh
+# 6. Finalisation Zsh et Plugins
+echo -e "${GREEN}[+] Configuration avancée de Zsh...${NC}"
+
+# Changer le shell
 sudo chsh -s $(which zsh) $USER
+
+# Installation de l'outil Zoxide (nécessaire pour le plugin zsh)
+sudo apt install -y zoxide
+
+# Définition du dossier custom
 ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
-[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
-[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+
+# A. Thème Powerlevel10k
+if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+    echo "Installation du thème Powerlevel10k..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+fi
+
+# B. Plugins
+echo "Installation des plugins Zsh..."
+
+# Autosuggestions
+[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+
+# Syntax Highlighting
+[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+
+# You Should Use
+[ ! -d "$ZSH_CUSTOM/plugins/you-should-use" ] && git clone https://github.com/MichaelAquilina/zsh-you-should-use.git $ZSH_CUSTOM/plugins/you-should-use
+
+# Zsh Bat
+[ ! -d "$ZSH_CUSTOM/plugins/zsh-bat" ] && git clone https://github.com/fdellwing/zsh-bat.git $ZSH_CUSTOM/plugins/zsh-bat
 
 echo -e "${GREEN}### TERMINÉ ! Redémarrez votre session. ###${NC}"
