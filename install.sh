@@ -1,6 +1,6 @@
 #!/bin/bash
 # --- A MODIFIER ---
-GITHUB_USER="votre_pseudo_github_ici"
+GITHUB_USER="Suly-ms"
 GITHUB_REPO="dotfiles"
 # ------------------
 
