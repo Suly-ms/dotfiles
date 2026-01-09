@@ -16,23 +16,40 @@ sudo apt update
 sudo apt install -y git zsh curl zoxide bat fzf dselect
 sudo flatpak install flathub app.zen_browser.zen
 
-# Installation de Zen Browser (via Flatpak)
-echo -e "${GREEN}[+] Installation de Zen Browser...${NC}"
+# Zen Browser (Configuration du profil)
+echo -e "${GREEN}[+] Installation et configuration de Zen Browser...${NC}"
 flatpak install flathub app.zen_browser.zen -y
 
-# Restauration de la config (Si elle existe dans le backup)
-# On cherche le dossier Zen dans le backup restauré
-ZEN_PATH="$HOME/.var/app/app.zen_browser.zen"
+# Définition du chemin des données Flatpak pour Zen
+ZEN_DATA="$HOME/.var/app/app.zen_browser.zen/.zen"
 
-if [ -d "$ZEN_PATH" ]; then
-    echo "Restauration de la config Zen Browser..."
-    # Pas besoin d'action spéciale : 'config checkout' a déjà remis les fichiers
-    # au bon endroit dans ~/.var/app/ au début du script.
-    
-    # On s'assure juste des permissions au cas où
-    sudo chown -R $USER:$USER "$ZEN_PATH"
+# On cherche le nom du dossier de profil qui contient votre dossier "chrome" (votre sauvegarde)
+# (On suppose que le dossier sauvegardé contient le dossier 'chrome' vu que c'est la méthode 2)
+RESTORED_PROFILE_DIR=$(find "$ZEN_DATA" -maxdepth 2 -type d -name "chrome" 2>/dev/null | head -n 1 | awk -F/ '{print $(NF-1)}')
+
+if [ ! -z "$RESTORED_PROFILE_DIR" ]; then
+    echo -e "${GREEN}[+] Profil Zen restauré détecté : $RESTORED_PROFILE_DIR${NC}"
+    echo "Modification de profiles.ini pour activer ce profil..."
+
+    # On écrase le fichier profiles.ini pour pointer vers VOTRE profil
+    cat > "$ZEN_DATA/profiles.ini" <<EOF
+[Profile0]
+Name=Default User
+IsRelative=1
+Path=$RESTORED_PROFILE_DIR
+Default=1
+
+[General]
+StartWithLastProfile=1
+Version=2
+EOF
+
+    echo "Profil activé avec succès."
+else
+    echo -e "${RED}[!] Aucun profil avec dossier 'chrome' trouvé. Zen utilisera un profil par défaut.${NC}"
 fi
 
+# Création lien symbolique de batcat
 if [ ! -f /usr/local/bin/bat ] && [ -f /usr/bin/batcat ]; then
     echo "Création du lien symbolique bat -> batcat..."
     sudo ln -s /usr/bin/batcat /usr/local/bin/bat
