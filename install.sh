@@ -7,15 +7,36 @@ GITHUB_REPO="dotfiles"
 GREEN='\033[0;32m'
 NC='\033[0m' 
 
-echo -e "${GREEN}### Installation Debian + XFCE + Zsh (Mode Propre) ###${NC}"
+echo -e "${GREEN}### Démarrage de l'installation... ###${NC}"
 
-# 1. Pré-requis
-echo -e "${GREEN}[+] Maj système et installation Git/Zsh/Curl...${NC}"
-sudo apt update && sudo apt install -y git zsh curl
+# 1. INSTALLATION DES DÉPENDANCES SYSTÈME (AVANT ZSH)
+echo -e "${GREEN}[+] Installation des pré-requis système (Zsh, Git, Zoxide, Bat)...${NC}"
+sudo apt update
+# On installe zoxide et bat ici pour éviter les erreurs "not found" plus tard
+sudo apt install -y git zsh curl zoxide bat fzf dselect
 
-# 2. Oh My Zsh
+if [ ! -f /usr/local/bin/bat ] && [ -f /usr/bin/batcat ]; then
+    echo "Création du lien symbolique bat -> batcat..."
+    sudo ln -s /usr/bin/batcat /usr/local/bin/bat
+fi
+
+echo -e "${GREEN}[+] Installation de la police MesloLGS NF (Nerd Font)...${NC}"
+mkdir -p $HOME/.local/share/fonts
+# On vérifie si la police est déjà là pour ne pas la télécharger 10 fois
+if [ ! -f "$HOME/.local/share/fonts/MesloLGS NF Regular.ttf" ]; then
+    cd $HOME/.local/share/fonts
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+    fc-cache -fv
+    cd -
+fi
+
+# 2. INSTALLATION DE OH MY ZSH
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo -e "${GREEN}[+] Installation de Oh My Zsh...${NC}"
+    # On l'installe sans lancer zsh tout de suite (--unattended)
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
