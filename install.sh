@@ -10,10 +10,28 @@ NC='\033[0m'
 echo -e "${GREEN}### Démarrage de l'installation... ###${NC}"
 
 # 1. INSTALLATION DES DÉPENDANCES SYSTÈME (AVANT ZSH)
-echo -e "${GREEN}[+] Installation des pré-requis système (Zsh, Git, Zoxide, Bat)...${NC}"
+echo -e "${GREEN}[+] Installation des pré-requis système (Zsh, Git, Zoxide, Bat, Zen Browser)...${NC}"
 sudo apt update
 # On installe zoxide et bat ici pour éviter les erreurs "not found" plus tard
 sudo apt install -y git zsh curl zoxide bat fzf dselect
+sudo flatpak install flathub app.zen_browser.zen
+
+# Installation de Zen Browser (via Flatpak)
+echo -e "${GREEN}[+] Installation de Zen Browser...${NC}"
+flatpak install flathub app.zen_browser.zen -y
+
+# Restauration de la config (Si elle existe dans le backup)
+# On cherche le dossier Zen dans le backup restauré
+ZEN_PATH="$HOME/.var/app/app.zen_browser.zen"
+
+if [ -d "$ZEN_PATH" ]; then
+    echo "Restauration de la config Zen Browser..."
+    # Pas besoin d'action spéciale : 'config checkout' a déjà remis les fichiers
+    # au bon endroit dans ~/.var/app/ au début du script.
+    
+    # On s'assure juste des permissions au cas où
+    sudo chown -R $USER:$USER "$ZEN_PATH"
+fi
 
 if [ ! -f /usr/local/bin/bat ] && [ -f /usr/bin/batcat ]; then
     echo "Création du lien symbolique bat -> batcat..."
