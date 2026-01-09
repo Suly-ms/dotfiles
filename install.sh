@@ -118,4 +118,13 @@ echo "Installation des plugins Zsh..."
 # Zsh Bat
 [ ! -d "$ZSH_CUSTOM/plugins/zsh-bat" ] && git clone https://github.com/fdellwing/zsh-bat.git $ZSH_CUSTOM/plugins/zsh-bat
 
-echo -e "${GREEN}### TERMINÉ ! Redémarrez votre session. ###${NC}"
+# 8. RECHARGEMENT DE L'INTERFACE XFCE
+echo -e "${GREEN}[+] Rechargement de la configuration des barres...${NC}"
+
+# On tue le processus qui garde la config en mémoire pour qu'il relise les fichiers
+xfce4-panel -r &>/dev/null & disown
+
+# Si vous avez aussi des soucis avec le fond d'écran qui ne s'applique pas tout de suite :
+xfdesktop --reload &>/dev/null & disown
+
+echo -e "${GREEN}### TERMINÉ ! ###${NC}"
