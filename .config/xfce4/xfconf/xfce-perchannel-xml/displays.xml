@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<channel name="displays" version="1.0">
+  <property name="ActiveProfile" type="string" value="Default"/>
+  <property name="Notify" type="int" value="1"/>
+  <property name="AutoEnableProfiles" type="int" value="3"/>
+  <property name="Default" type="empty">
+    <property name="eDP" type="string" value="Portable">
+      <property name="Active" type="bool" value="true"/>
+      <property name="EDID" type="string" value="cd2c7fd718c318b30190376c9dc05197209ae462"/>
+      <property name="Resolution" type="string" value="1920x1080"/>
+      <property name="RefreshRate" type="double" value="59.996714167127834"/>
+      <property name="Rotation" type="int" value="0"/>
+      <property name="Reflection" type="string" value="0"/>
+      <property name="Primary" type="bool" value="false"/>
+      <property name="Scale" type="double" value="1"/>
+      <property name="Position" type="empty">
+        <property name="X" type="int" value="0"/>
+        <property name="Y" type="int" value="0"/>
+      </property>
+    </property>
+    <property name="HDMI-A-0" type="string" value="Epson 72&quot;">
+      <property name="Active" type="bool" value="true"/>
+      <property name="EDID" type="string" value="b06a4a739af06c55f17be8740c43b8ec775c99fc"/>
+      <property name="Resolution" type="string" value="1280x800"/>
+      <property name="RefreshRate" type="double" value="59.81032605581342"/>
+      <property name="Rotation" type="int" value="0"/>
+      <property name="Reflection" type="string" value="0"/>
+      <property name="Primary" type="bool" value="false"/>
+      <property name="Scale" type="double" value="1"/>
+      <property name="Position" type="empty">
+        <property name="X" type="int" value="1920"/>
+        <property name="Y" type="int" value="0"/>
+      </property>
+    </property>
+  </property>
+</channel>
