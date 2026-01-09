@@ -15,12 +15,22 @@ sudo apt update
 # On installe zoxide et bat ici pour éviter les erreurs "not found" plus tard
 sudo apt install -y git zsh curl zoxide bat fzf dselect
 
-# 1b. Correction spécifique Debian pour "bat"
-# Debian installe "bat" sous le nom "batcat" à cause d'un conflit de nom.
-# Les plugins Zsh cherchent "bat". On crée donc un lien symbolique pour corriger ça.
 if [ ! -f /usr/local/bin/bat ] && [ -f /usr/bin/batcat ]; then
     echo "Création du lien symbolique bat -> batcat..."
     sudo ln -s /usr/bin/batcat /usr/local/bin/bat
+fi
+
+echo -e "${GREEN}[+] Installation de la police MesloLGS NF (Nerd Font)...${NC}"
+mkdir -p $HOME/.local/share/fonts
+# On vérifie si la police est déjà là pour ne pas la télécharger 10 fois
+if [ ! -f "$HOME/.local/share/fonts/MesloLGS NF Regular.ttf" ]; then
+    cd $HOME/.local/share/fonts
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+    wget -q https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+    fc-cache -fv
+    cd -
 fi
 
 # 2. INSTALLATION DE OH MY ZSH
